@@ -1,6 +1,9 @@
 package org.example.demo.student;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
+
     private final Integer studentId;
     private final String studentName;
 
@@ -15,5 +18,13 @@ public class Student {
 
     public String getStudentName() {
         return studentName;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentId=" + studentId +
+                ", studentName='" + studentName + '\'' +
+                '}';
     }
 }
