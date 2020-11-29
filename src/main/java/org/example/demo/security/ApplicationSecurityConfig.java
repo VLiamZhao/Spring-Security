@@ -136,7 +136,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http  //order matters
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .antMatchers("/", "index", "/css/*", "/js/*", "/user").permitAll()
                 .antMatchers("/api/**").hasRole(STUDENT.name())
 //                .antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(ApplicationUserPermission.COURSE_WRITE.getPermission())
 //                .antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(ApplicationUserPermission.COURSE_WRITE.getPermission())

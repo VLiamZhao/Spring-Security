@@ -1,46 +1,52 @@
 package org.example.demo.auth;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.example.demo.security.ApplicationUserRole;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.management.relation.Role;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Set;
-
+@Entity(name = "user")
+@Builder
+@Data
+@AllArgsConstructor
 public class ApplicationUser implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int userId;
 
-    private final String username;
-    private final String password;
-    private final Set<? extends GrantedAuthority> grantedAuthorities;
-    private final boolean accountNonExpired;
-    private final boolean accountNonLocked;
-    private final boolean credentialsNonExpired;
-    private final boolean enabled;
+    @Column
+    private String username;
 
-    public ApplicationUser (String username,
-                            String password,
-                            Set<? extends GrantedAuthority> grantedAuthorities,
-                            boolean accountNonExpired,
-                            boolean accountNonLocked,
-                            boolean credentialsNonExpired,
-                            boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.grantedAuthorities = grantedAuthorities;
-        this.accountNonExpired = accountNonExpired;
-        this.accountNonLocked = accountNonLocked;
-        this.credentialsNonExpired = credentialsNonExpired;
-        this.enabled = enabled;
-    }
+    @Column
+    private String password;
 
-    public ApplicationUser (String username,
-                            String password,
-                            Set<? extends GrantedAuthority> grantedAuthorities) {
-        this(username, password, grantedAuthorities, true, true, true, true);
-    }
+    @Enumerated(EnumType.STRING)
+    private ApplicationUserRole role;
+
+
+    private boolean accountNonExpired;
+
+
+    private boolean accountNonLocked;
+
+
+    private boolean credentialsNonExpired;
+
+
+    private boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
+        return role.getGrantedAuthorities();
     }
 
     @Override
@@ -71,5 +77,50 @@ public class ApplicationUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public ApplicationUser(String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
+
+        this.username = username;
+        this.password = password;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
+    }
+
+    public ApplicationUser() {
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(ApplicationUserRole role) {
+        this.role = role;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

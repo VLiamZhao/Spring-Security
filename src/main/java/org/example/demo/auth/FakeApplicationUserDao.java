@@ -27,25 +27,27 @@ public class FakeApplicationUserDao implements ApplicationUserDao {
                 .findFirst();
     }
 
+    @Override
+    public ApplicationUser addUser(ApplicationUser addedUser) {
+        return null;
+    }
+
     private List<ApplicationUser> getApplicationUsers() {
         return Lists.newArrayList(
                 new ApplicationUser ("anna",
                         passwordEncoder.encode("pass"),
-                        STUDENT.getGrantedAuthorities(),
                         true,
                         true,
                         true,
                         true),
                 new ApplicationUser ("steve",
                         passwordEncoder.encode("pass"),
-                        ADMIN.getGrantedAuthorities(),
                         true,
                         true,
                         true,
                         true),
                 new ApplicationUser ("tom",
                         passwordEncoder.encode("pass"),
-                        ADMINTRAINEE.getGrantedAuthorities(),
                         true,
                         true,
                         true,
